@@ -12,6 +12,8 @@
         android:layout_height="200dp"
         android:text="What is the biggest contributor to global warming?"
         android:textSize="40sp"
+        android:textColor="#ffffff"
+        android:background="@color/colorAccent"
         android:gravity="center"/>
 
 
@@ -22,7 +24,19 @@
         android:layout_height="200dp"
         android:text="Greenhouse gases"
         android:textSize="40sp"
+        android:textColor="@color/colorAccent"
+        android:background="#000000"
         android:gravity="center"/>
+
+    <ImageView
+        android:id="@+id/addButton"
+        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/icon_plus"/>
 
 
 </RelativeLayout>
