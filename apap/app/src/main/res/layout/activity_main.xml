@@ -38,5 +38,15 @@
         android:layout_alignParentBottom="true"
         android:src="@drawable/icon_plus"/>
 
+    <ImageView
+        android:id="@+id/nextButton"
+        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/arrow"/>
+
 
 </RelativeLayout>
