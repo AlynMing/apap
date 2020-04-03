@@ -1,10 +1,13 @@
 package com.example.apap;
+
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -21,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         flashcardDatabase = new FlashcardDatabase(getApplicationContext());
+
+        allFlashcards = flashcardDatabase.getAllCards();
+
         findViewById(R.id.flashcard_question).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,6 +42,25 @@ public class MainActivity extends AppCompatActivity {
                 // hide the question and show the answer to prepare for playing the animation!
                 questionSideView.setVisibility(View.INVISIBLE);
                 answerSideView.setVisibility(View.VISIBLE);
+                anim.setDuration(3000);
+                anim.start();
+            }
+        });
+        findViewById(R.id.flashcard_answer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View answerSideView = findViewById(R.id.flashcard_answer);
+                View questionSideView = findViewById(R.id.flashcard_question);
+                // get the center for the clipping circle
+                int cx = answerSideView.getWidth() / 2;
+                int cy = answerSideView.getHeight() / 2;
+                // get the final radius for the clipping circle
+                float finalRadius = (float) Math.hypot(cx, cy);
+                // create the animator for this view (the start radius is zero)
+                Animator anim = ViewAnimationUtils.createCircularReveal(questionSideView, cx, cy, 0f, finalRadius);
+                // hide the question and show the answer to prepare for playing the animation!
+                answerSideView.setVisibility(View.INVISIBLE);
+                questionSideView.setVisibility(View.VISIBLE);
                 anim.setDuration(3000);
                 anim.start();
             }
@@ -64,6 +89,28 @@ public class MainActivity extends AppCompatActivity {
                 // set the question and answer TextViews with data from the database
                 ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(currentCardDisplayedIndex).getQuestion());
                 ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(currentCardDisplayedIndex).getAnswer());
+
+                final Animation leftOutAnim = AnimationUtils.loadAnimation(v.getContext(), R.anim.left_out);
+                final Animation rightInAnim = AnimationUtils.loadAnimation(v.getContext(), R.anim.right_in);
+
+                leftOutAnim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        findViewById(R.id.flashcard_question).startAnimation(leftOutAnim);
+                        // this method is called when the animation first starts
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        findViewById(R.id.flashcard_question).startAnimation(rightInAnim);
+                        // this method is called when the animation is finished playing
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                        // we don't need to worry about this method
+                    }
+                });
             }
         });
     }
@@ -81,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
 
 
 
