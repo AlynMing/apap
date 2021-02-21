@@ -8,7 +8,6 @@ App is a flashcard app that asks a question, when the user clicks the answer is 
 
 ### App Walk-though
 
-<img src="http://g.recordit.co/uq9LYMNCpN.gif" width=200><br>
 
 
 ## Required
